@@ -3,16 +3,97 @@ import java.util.Arrays;
 public class ArraysEx {
 
     public static void main(String[] args) {
-        int[] arr = {1, 10, 10, 4, 5};
+        int[] arr = {8, 3, 4, 8, 8};
         int size = 6;
         int ele = 90;
         int index = 2;
         long[] arr1 = {1, 2, 0, 0, 5};
         //System.out.println(Arrays.toString(moveZerosToTheEndEff(arr, 5)));
-        freq(arr, 5);
+        System.out.println(majorityEle(arr, 5));
+    }
+
+    /*majority element*/
+    public static int majorityEle(int[] arr, int n){
+
+
+        for(int i = 0; i< n ; i++){
+            int count = 1;
+            for(int j = i+1; j < n; j++){
+                if(arr[i] == arr[j]){
+                    count++;
+                }
+            }
+            if(count > (n/2)){
+              return i;
+            }
+        }
+
+        return -1;
     }
 
 
+    /*maximum length even -odd sub-array */
+    public static int maxEvenOdd(int[] arr, int n) {
+        int res = 1;
+        int curr = 1;
+        for (int i = 1; i < n; i++) {
+            if ((arr[i] % 2 == 0 && arr[i - 1] % 2 != 0) || (arr[i] % 2 != 0 && arr[i - 1] % 2 == 0)) {
+                curr++;
+                res = Math.max(res, curr);
+            } else {
+                curr = 1;
+            }
+        }
+        return res;
+    }
+
+    /*maximum sub-array sum */
+    public static int subArraySum(int[] arr, int n) {
+        int maxSum = arr[0];
+        int maxEnd = arr[0];
+        for (int i = 1; i < n; i++) {
+            maxEnd = Math.max(maxEnd + arr[i], arr[i]);
+            maxSum = Math.max(maxSum, maxEnd);
+        }
+        return maxSum;
+    }
+
+    /*maximum circular sub-array sum */
+    public static int circularSubArraySum(int[] arr, int n) {
+        int maxNormal = subArraySum(arr, n);
+        if (maxNormal < 0) {
+            return maxNormal;
+        }
+        int arrSum = 0;
+        for (int i = 0; i < n; i++) {
+            arrSum += arr[i];
+            arr[i] = -arr[i];
+        }
+        int maxCircular = arrSum + subArraySum(arr, n);
+
+        return Math.max(maxCircular, maxNormal);
+    }
+
+
+    /*maximum consecutive 1's in a binary array*/
+    public static int consecutiveOne(int[] arr, int n) {
+        int max = 0;
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] == 1) {
+                count++;
+                if (max < count) {
+                    max = count;
+                }
+            } else {
+                count = 0;
+            }
+        }
+        return max;
+    }
+
+
+    /*frequency of a number*/
     public static void freq(int[] arr, int n) {
         int freq = 1, i = 1;
         while (i < n) {
@@ -24,8 +105,8 @@ public class ArraysEx {
             i++;
             freq = 1;
         }
-        if(n == 1 || arr[n-1] != arr[n-2]){
-            System.out.println(arr[n-1]+" "+ 1) ;
+        if (n == 1 || arr[n - 1] != arr[n - 2]) {
+            System.out.println(arr[n - 1] + " " + 1);
         }
 
     }
