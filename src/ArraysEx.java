@@ -1,30 +1,189 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ArraysEx {
 
     public static void main(String[] args) {
-        int[] arr = {8, 3, 4, 8, 8};
+        int[] arr = {2, 8, 3, 9, 6, 5, 4};
         int size = 6;
         int ele = 90;
         int index = 2;
         long[] arr1 = {1, 2, 0, 0, 5};
         //System.out.println(Arrays.toString(moveZerosToTheEndEff(arr, 5)));
-        System.out.println(majorityEle(arr, 5));
+        System.out.println(sumOfSubArrays(arr));
     }
 
+    /*Maximum appearing element*/
+    public static int maxAppearance(int[] L, int[] R, int n) {
+        int freq[] = new int[101];
+        for (int i = 0; i < n; i++) {
+            freq[L[i]]++;
+            freq[R[i]]--;
+        }
+        int res = 0;
+        for (int i = 1; i < 100; i++) {
+            freq[i] = freq[i - 1] + freq[i];
+            if (freq[i] > freq[res]) {
+                res = i;
+            }
+        }
+        return res;
+
+    }
+
+    //Function to find the maximum occurred integer in all ranges.
+    public static int maxOccured(int L[], int R[], int n, int maxx) {
+
+        int arr[] = new int[1000000];
+        for (int i = 0; i < n; i++) {
+            arr[L[i]] += 1;
+            arr[R[i] + 1] -= 1;
+        }
+
+        int maxSum = arr[0], ind = 0;
+
+        for (int i = 1; i <= maxx; i++) {
+            arr[i] += arr[i - 1];
+            if (maxSum < arr[i]) {
+                maxSum = arr[i];
+                ind = i;
+            }
+        }
+
+        return ind;
+    }
+
+
+    /*Sum of given sub arrays*/
+    public static int sumOfSubArrays(int[] arr) {
+
+        return getSumEff(2, 6, arr);
+
+    }
+
+    private static int getSum(int l, int r, int[] arr) {
+        int sum = 0;
+        for (int i = l; i <= r; l++) {
+            sum += arr[l];
+        }
+        return sum;
+    }
+
+    private static int getSumEff(int l, int r, int[] arr) {
+        for (int i = 1; i < arr.length; i++) {
+            arr[i] += arr[i - 1];
+        }
+        if (l == 0) {
+            return arr[r];
+        }
+        return (arr[r] - arr[l - 1]);
+    }
+
+    /*sub array with given sum*/
+    public static boolean hasSubArray(int[] arr, int sum) {
+
+
+        for (int i = 0; i < arr.length; i++) {
+            int currSum = 0;
+            for (int j = i; j < arr.length; j++) {
+                currSum += arr[j];
+                if (currSum == sum) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /*sub array with given sum*/
+    public static boolean hasSubArrayEff(int[] arr, int sum) {
+
+        int currSum = 0;
+        int pos = 0;
+        for (int i = 0; i < arr.length; i++) {
+            currSum += arr[i];
+            while (sum < currSum) {
+                currSum -= arr[pos];
+                pos++;
+            }
+            if (currSum == sum) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /*print pattern (N-5) starting with n and ending with n without using loop*/
+    public static List<Integer> pattern(int N) {
+        // code here
+        List<Integer> list = new ArrayList<>();
+        generatePattern(N, N, 0, list);
+        return list;
+    }
+
+    private static void generatePattern(int curr, int n, int type, List<Integer> list) {
+        // Add the current value of N to the result list
+        if (curr <= 0)
+            type = 1;
+
+        list.add(curr);
+
+        if (curr == n && type == 1)
+            return;
+
+        if (type == 0)
+            generatePattern(curr - 5, n, type, list);
+        else
+            generatePattern(curr + 5, n, type, list);
+    }
+
+    /*maximum sum of k consecutive element*/
+    public static int maxSumOfKEle(int[] arr, int k) {
+        int sum = Integer.MIN_VALUE;
+
+
+        for (int i = 0; i + k - 1 < arr.length; i++) {
+            int currSum = 0;
+            for (int j = 0; j < k; j++) {
+                currSum += arr[i + j];
+            }
+            sum = Math.max(sum, currSum);
+        }
+
+        return sum;
+    }
+
+    public static int maxSumOfKEleEff(int[] arr, int k) {
+
+        int currSum = 0;
+        for (int i = 0; i < k; i++) {
+            currSum += arr[i];
+        }
+        int sum = currSum;
+        for (int i = k; i < arr.length; i++) {
+            currSum = currSum + arr[i] - arr[i - k];
+            sum = Math.max(currSum, sum);
+        }
+
+        return sum;
+    }
+
+
     /*majority element*/
-    public static int majorityEle(int[] arr, int n){
+    public static int majorityEle(int[] arr, int n) {
 
 
-        for(int i = 0; i< n ; i++){
+        for (int i = 0; i < n; i++) {
             int count = 1;
-            for(int j = i+1; j < n; j++){
-                if(arr[i] == arr[j]){
+            for (int j = i + 1; j < n; j++) {
+                if (arr[i] == arr[j]) {
                     count++;
                 }
             }
-            if(count > (n/2)){
-              return i;
+            if (count > (n / 2)) {
+                return i;
             }
         }
 
