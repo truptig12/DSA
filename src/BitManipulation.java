@@ -9,8 +9,32 @@ public class BitManipulation {
         int arr[] = {1, 2, 3, 2, 1, 4};
         //System.out.println(Arrays.toString(singleNumber(arr)));
 //        System.out.println(isPowerofTwo(8));
-        String str = "A man, a plan, a canal: Panama";
-        System.out.println(isPalindrome(str));
+        /*String str = "A man, a plan, a canal: Panama";
+        System.out.println(isPalindrome(str));*/
+        // Example BCD date and time: 23rd April 2021, 15:45:30
+        byte[] bcdDateTime = {0x21, 0x04, 0x23, 0x15, 0x45, 0x30};
+
+        String dateTime = formatDateTime(bcdDateTime);
+        System.out.println("Date and Time: " + dateTime);
+    }
+
+    // Function to convert a BCD byte to decimal
+    private static int bcdToDecimal(byte bcd) {
+        int tens = (bcd / 16);  // Divide by 16 to get the tens place digit
+        int units = (bcd % 16); // Modulo by 16 to get the units place digit
+        return tens * 10 + units;
+    }
+
+    // Function to format date and time from BCD values
+    public static String formatDateTime(byte[] bcdDateTime) {
+        int year = bcdToDecimal(bcdDateTime[0]);
+        int month = bcdToDecimal(bcdDateTime[1]);
+        int day = bcdToDecimal(bcdDateTime[2]);
+        int hour = bcdToDecimal(bcdDateTime[3]);
+        int minute = bcdToDecimal(bcdDateTime[4]);
+        int second = bcdToDecimal(bcdDateTime[5]);
+
+        return String.format("%02d/%02d/%02d %02d:%02d:%02d", day, month, year, hour, minute, second);
     }
 
     public static void updateBit() {
@@ -90,7 +114,7 @@ public class BitManipulation {
 
     }
 
-    public static boolean isPowerofTwo(long n) {
+    public static boolean isPowerOfTwo(long n) {
 
         // Your code here
         if (n == 0) {

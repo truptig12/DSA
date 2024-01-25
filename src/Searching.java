@@ -1,11 +1,80 @@
 public class Searching {
 
     public static void main(String[] arg) {
-        int[] arr = {1, 2, 3, 4, 5, 6};
+        int[] arr = {1, 2, 3, 4, 5};
 
-        System.out.println(binarySearchRecur(arr, 5, 0, arr.length - 1));
+        System.out.println(twoPointerApproach(arr, 5, 3));
     }
 
+    /*Two Pointers Approach
+     *to determine whether there exists a pair of integers in the array that adds up to a given target value.
+     * */
+    public static boolean twoPointerApproach(int[] arr, int n, int x) {
+
+        int low = 0, high = n - 1;
+        while (low < high) {
+            if (arr[low] + arr[high] == x) {
+                return true;
+            } else if (arr[low] + arr[high] > x) {
+                high--;
+
+            } else {
+                low++;
+            }
+        }
+        return false;
+    }
+
+
+    //SquareRoot floor value
+    public static int squareRootFloor(int x) {
+
+        int i = 1;
+        while (i * i <= x) {
+            i++;
+        }
+        return (i - 1);
+    }
+
+    /*square root floor value using binary search*/
+    public static int squareRootFloorBinaryS(int x) {
+        int low = 1, high = x / 2, ans = 0;
+        while (low <= high) {
+            int mid = (low + high) / 2;
+            int mSq = mid * mid;
+            if (mSq == x) {
+                return mid;
+            } else if (mSq > x) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+                ans = mid;
+            }
+        }
+        return ans;
+
+    }
+
+
+    // Function to count number of ones in the binary array
+    // N: size of array
+    // arr[]: input array
+    public static int countOnes(int arr[], int N) {
+
+        // Your code here
+        int low = 0, high = N - 1;
+
+        while (low <= high) {
+
+            int mid = (low + high) / 2;
+            if (arr[mid] == 1) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return low;
+    }
 
     /*index of first occurrence */
     public static int firstOcc(int arr[], int n, int x) {
