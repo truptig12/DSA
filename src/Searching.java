@@ -163,4 +163,28 @@ public class Searching {
         }
         return -1;
     }
+
+    /*Given an integer array representing the heights of N buildings, the task is to delete N-2 buildings such that
+    the water that can be trapped between the remaining two building is maximum. Note: The total water trapped between
+    two buildings is gap between them (number of buildings removed) multiplied by height of the smaller building.*/
+    static int maxWater(int[] height, int n) {
+
+        if (n < 3) {
+            return 0;
+        }
+        int left = 0, right = n - 1;
+        int maxWater = 0;
+        while (left < right) {
+            int currentWater = Math.min(height[left], height[right]) * (right - left - 1);
+            maxWater = Math.max(maxWater, currentWater);
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+
+        }
+        return maxWater;
+
+    }
 }
