@@ -4,14 +4,35 @@ import java.util.Arrays;
 public class Sorting {
 
     public static void main(String[] args) {
-       /* insertionSort();
+
         int[] arr = {10, 5, 30, 15, 7};
         int l = 0, r = arr.length - 1;
-        mergeSort(arr, l, r);*/
-        int A[] = {27, 79, 106, 277, 401, 9896, 10002};
+
+       /* int A[] = {27, 79, 106, 277, 401, 9896, 10002};
         int B[] = {1279, 1478, 1482, 2420};
-        int C[] = {2426};
-        System.out.println(merge3sorted(A, B, C));
+        int C[] = {2426};*/
+        quickSort(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
+    }
+
+
+    /*Lomuto Partition*/
+    public static int partitionIndex(int[] arr, int l, int h) {
+
+        int pivot = arr[h];
+        int i = l - 1;
+        for (int j = l; j <= h; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[h];
+        arr[h] = temp;
+        return i + 1;
     }
 
     static ArrayList<Integer> merge3sorted(int A[], int B[], int C[]) {
@@ -137,5 +158,34 @@ public class Sorting {
         }
     }
 
+
+    public static void quickSort(int[] arr, int l, int h) {
+
+        if (l < h) {
+            int pidx = partition(arr, l, h);
+            quickSort(arr, l, pidx - 1);
+            quickSort(arr, pidx + 1, h);
+        }
+
+    }
+
+    private static int partition(int[] arr, int low, int high) {
+        int pivot = arr[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                i++;
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+        i++;
+        int temp = arr[i];
+        arr[i] = arr[high];
+        arr[high] = temp;
+        return i;
+
+    }
 
 }
